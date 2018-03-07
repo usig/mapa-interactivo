@@ -83,16 +83,34 @@ const defaults = {
         reverseGeocodeUrl: 'reverseGeocoderLugares'
     },
     texts: {
-        loadingLayers: 'map.loadingLayers',
-        loadingMaps: 'map.loadingMaps',
-        loadingInformation: 'map.loadingInformation',
-        errorLoadingInformation: 'map.errorLoadingInformation'
-    }
+      es: {
+        loadingLayers: 'Cargando capas...',
+        loadingMaps: 'Cargando mapas...',
+        loadingInformation: 'Cargando información...',
+        errorLoadingInformation: 'Se produjo un error al acceder a la información. Reintente más tarde.'
+      },
+      en : {
+        loadingLayers: 'Loading layers...',
+        loadingMaps: 'Loading maps...',
+        loadingInformation: 'Loading information...',
+        errorLoadingInformation: 'An error ocurred. Please try again later.'
+      }
+    },
+    language: "es"
 };
 
 class MapaInteractivo {
     constructor(nodeId, options) {
         this.config = Object.assign({}, defaults, options);
+        this.config.supportedLanguages = Object.keys(this.config.texts);
+        if (this.config.supportedLanguages.length === 0) {
+          this.config.texts = defaults.texts;
+          this.config.language = defaults.language;
+          this.config.supportedLanguages = Object.keys(this.config.texts);
+        }
+        if (this.config.supportedLanguages.indexOf(this.config.language) === -1)
+          this.config.language = this.config.supportedLanguages[0];
+        console.log (this.config.supportedLanguages, this.config.language, this.config.texts);
         const params = Object.assign({}, this.config.params, options);
         this.map = L.map(nodeId, params);
         this.msgControl = L.control.message({
@@ -131,7 +149,11 @@ class MapaInteractivo {
             recorrido
         }
     }
-
+    setIdioma(idioma) {
+      if (this.config.supportedLanguages.indexOf(idioma) > -1) {
+        this.config.language = idioma;
+      }
+    }
     mostrarRecorrido(r, options) {
       if (!this._recorridos[r.id]) {
         // this.ocultarRecorrido();
