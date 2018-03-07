@@ -1,0 +1,20 @@
+.leaflet-control-message {
+	background: #222;
+	color: #fff;
+	opacity: 0.85;
+	font-size: 1.2em;
+	margin: 0!important;
+	padding: 8px 15px;
+	max-height: 4em;
+	display: none;	
+}
+
+.leaflet-control-message.active {
+	display: block;
+}
+.leaflet-control-message p {
+	margin: 0;
+}
+.leaflet-bottom.leaflet-left {
+	z-index:1001!important;	
+}

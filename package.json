@@ -1,0 +1,48 @@
+{
+  "name": "@usig-gcba/mapa-interactivo",
+  "version": "1.0.3",
+  "description": "Mapa interactivo ",
+  "main": "lib/mapainteractivo.min.js",
+  "scripts": {
+    "build": "webpack --env build",
+    "dev": "webpack --progress --colors --watch --env dev",
+    "test": "mocha --compilers js:babel-core/register --colors ./test/*.spec.js",
+    "test:watch": "mocha --compilers js:babel-core/register --colors -w ./test/*.spec.js"
+  },
+  "devDependencies": {
+    "babel-cli": "6.24.1",
+    "babel-core": "6.24.1",
+    "babel-eslint": "7.2.3",
+    "babel-loader": "7.0.0",
+    "babel-plugin-add-module-exports": "0.2.1",
+    "babel-preset-es2015": "6.24.1",
+    "chai": "3.5.0",
+    "css-loader": "^0.28.10",
+    "mocha": "3.3.0",
+    "style-loader": "^0.20.2",
+    "url-loader": "^1.0.1",
+    "webpack": "3.1.0",
+    "yargs": "7.1.0"
+  },
+  "keywords": [
+    "webpack",
+    "es6",
+    "starter",
+    "library",
+    "universal",
+    "umd",
+    "commonjs"
+  ],
+  "dependencies": {
+    "es6-promise": "^4.1.1",
+    "exports-loader": "^0.7.0",
+    "imports-loader": "^0.8.0",
+    "isomorphic-fetch": "^2.2.1",
+    "leaflet": "^1.2.0",
+    "leaflet.markercluster": "^1.2.0",
+    "lodash": "^4.17.4",
+    "proj4": "^2.4.4"
+  },
+  "author": "USIG",
+  "license": "USIG"
+}
