@@ -315,7 +315,7 @@ class MapaInteractivo {
         Object.entries(conf).forEach((layer) => {
           switch(layer[1].format) {
             case 'geojson':
-                        this.msgControl.show(this.config.texts.loadingInformation);
+                        this.msgControl.show(this.config.texts[this.config.language].loadingInformation);
                         // console.log('Fetching ', layer[1].url);
                         fetch(layer[1].url)
                         .then((res) => res.json())
@@ -327,7 +327,7 @@ class MapaInteractivo {
                         }).catch((err) => {
                           if (layerName === self._activeLayer) {
                             console.error(err);
-                            self.msgControl.show(this.config.texts.errorLoadingInformation);
+                            self.msgControl.show(this.config.texts[this.config.language].errorLoadingInformation);
                             this._loadingLayer = false;
                           }
                         });
@@ -429,7 +429,7 @@ class MapaInteractivo {
           } else if (!this.layersDefs) {
             // console.log('Must load layers defs');
             const self = this;
-            this.msgControl.show(this.config.texts.loadingLayers);
+            this.msgControl.show(this.config.texts[this.config.language].loadingLayers);
             this._loadLayerDefs().then(() => {
               self.msgControl.hide();
               self.addPublicLayer(layerName, options);
