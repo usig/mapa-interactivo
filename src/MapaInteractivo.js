@@ -110,7 +110,6 @@ class MapaInteractivo {
         }
         if (this.config.supportedLanguages.indexOf(this.config.language) === -1)
           this.config.language = this.config.supportedLanguages[0];
-        console.log (this.config.supportedLanguages, this.config.language, this.config.texts);
         const params = Object.assign({}, this.config.params, options);
         this.map = L.map(nodeId, params);
         this.msgControl = L.control.message({
@@ -684,6 +683,10 @@ class MapaInteractivo {
 
     hideMessage() {
         this.msgControl.hide();
+    }
+
+    getMapa() {
+      return this.map;
     }
 }
 

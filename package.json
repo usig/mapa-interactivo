@@ -27,11 +27,7 @@
   "keywords": [
     "webpack",
     "es6",
-    "starter",
-    "library",
-    "universal",
-    "umd",
-    "commonjs"
+    "leaflet"
   ],
   "dependencies": {
     "es6-promise": "^4.1.1",
