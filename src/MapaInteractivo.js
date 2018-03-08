@@ -37,7 +37,8 @@ const defaults = {
         tap: true,
         legends: true,
         infoControl: false,
-        attributionControl: false
+        attributionControl: false,
+        scaleControl: true
     },
     baseLayer: {
         uri: 'http://tiles1.usig.buenosaires.gob.ar/mapcache/tms/1.0.0/amba_con_transporte_3857@GoogleMapsCompatible/{z}/{x}/{y}.png',
@@ -125,7 +126,8 @@ class MapaInteractivo {
         this._markersLayerGroup = L.layerGroup().addTo(this.map);
         this._markersClusterLayerGroup = new MarkerClusterGroup({showCoverageOnHover: false, maxClusterRadius: 30});
         // this.msgControl.show('Cargando...')
-        L.control.scale({ imperial: false, position: "bottomleft" }).addTo(this.map);
+        if (params.scaleControl)
+          L.control.scale({ imperial: false, position: "bottomleft" }).addTo(this.map);
         this.baseLayer = L.tileLayer(this.config.baseLayer.uri, this.config.baseLayer.params).addTo(this.map);
         this.map.on('contextmenu', this._onContextMenu, this);
         this.map.on('click', this._onClick, this);

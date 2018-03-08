@@ -3,7 +3,7 @@ Una manera simple de crear un mapa de la Ciudad de Buenos Aires y alrededores ut
 
 #Instalación
 ```
-npm install @gcba-usig/mapa-ineractivo
+npm install @gcba-usig/mapa-interactivo
 ```
 
 #Cómo usarlo
@@ -12,7 +12,7 @@ npm install @gcba-usig/mapa-ineractivo
 ```javascript
 import MapaInteractivo from '@usig-gcba/mapa-interactivo'
 
-const mapaInteractivo = new MapaInteractivo("mapa-id", {params: {center: [34.5, 29.4]}});
+const mapaInteractivo = new MapaInteractivo("mapa-id", {center: [34.5, 29.4]});
 ```
 
 #API
@@ -26,6 +26,12 @@ const mapaInteractivo = new MapaInteractivo("mapa-id", {params: {center: [34.5, 
 | **onContextMenu** | *function* | null |Callback llamado al hacer click derecho sobre el mapa |
 | **onMoveStart** | *function* | null |Callback llamado al comienzo de un movimiento generado en el mapa (tanto por zoom como por desplazamiento) |
 | **onMoveEnd** | *function* | null |Callback llamado al final de un movimiento generado en el mapa|
+| **center** | *[Number, Number]*     |    `[-34.62,   -58.44]` |Centro del mapa al iniciar|
+| **zoomControl** | *boolean*      |   `false` |Mostrar el control de zoom cuando es `true`|
+| **zoom** | *Number*      |   `13` |Nivel de zoom del mapa al iniciar|
+| **touchZoom** | *boolean*      |   `true` | Habilita zoom mediante eventos touch cuando es `true` |
+| **tap** | *boolean*      |   `true` | Habilita eventos touch cuando es `true` |
+| **attributionControl** | *boolean*      |   `false` | Se muestra la informacion de atribucion
 | **markerZoomInLevel** | *Number* | `15` |Nivel en el que se debe hacer zoom sobre un marcador |
 | **featureZoomInLevel** | *Number*      |   `17` |Nivel en el que se debe hacer zoom sobre un feature|
 | **language** | *String*      |   `es` |Idioma de los mensajes del mapa |
@@ -33,16 +39,6 @@ const mapaInteractivo = new MapaInteractivo("mapa-id", {params: {center: [34.5, 
 | **toMarker** | [*Icon*](http://leafletjs.com/reference-1.3.0.html#icon)      |   ![alt text](https://mapa.buenosaires.gob.ar/imgs/marker-target.png "Marcador") |Icono del marcador de fin al mostrar un recorrido |
 | **activeMarker** | [*Icon*](http://leafletjs.com/reference-1.3.0.html#icon)      |   ![alt text](https://mapa.buenosaires.gob.ar/imgs/marker-icon.png "Marcador") |Icono del marcador activo|
 | **marker** | [*Icon*](http://leafletjs.com/reference-1.3.0.html#icon)      |   ![alt text](http://mapa.buenosaires.gob.ar/imgs/marker-target.png "Marcador") |Icono del marcador default |
-
-#####*opciones.params?: Object*
-| Opcion        | Tipo           | Default  | Descripcion |
-| ------------- |:-------------: | :---------:| :---------- |
-| **center** | *[Number, Number]*     |    `[-34.62,   -58.44]` |Centro del mapa al iniciar|
-| **zoomControl** | *boolean*      |   `false` |Mostrar el control de zoom cuando es `true`|
-| **zoom** | *Number*      |   `13` |Nivel de zoom del mapa al iniciar|
-| **touchZoom** | *boolean*      |   `true` | Habilita zoom mediante eventos touch cuando es `true` |
-| **tap** | *boolean*      |   `true` | Habilita eventos touch cuando es `true` |
-| **attributionControl** | *boolean*      |   `false` | Se muestra la informacion de atribucion
 
 #####*opciones.baseLayer?: Object*
 | Opcion        | Tipo           | Default  | Descripcion |
@@ -72,15 +68,15 @@ Objeto conteniendo los textos definidos para cada idioma. Por default se encuent
 *Retorna la instancia interna del mapa*
 
 ####addPublicLayer(layerName: String, options: Object)
-*agrega una capa en base a su nombre*
+*Agrega una capa en base a su nombre*
   * **layerName**: `String` indicando el nombre de la capa perteneciente a una de las [capas disponibles](http://epok.buenosaires.gob.ar/mapainteractivoba/layers).
 
 ####removePublicLayer(layerName: String)
-*remueve una capa en base a su nombre*
+*Remueve una capa en base a su nombre*
   * **layerName**: `String` indicando el nombre de la capa
   
 ####addMarker(latlng: Object, visible: boolean, draggable: boolean, goTo: boolean, activate: boolean, clickable: boolean, options: Object) => markerId: Number
-*agrega un marcador en la posicion especificada, retornando su id*
+*Agrega un marcador en la posicion especificada, retornando su id*
 #####Parámetros
   * **latlng**: `Object` posicion del marcador
     * **lat**: `Number` latitud
@@ -127,3 +123,8 @@ Objeto conteniendo los textos definidos para cada idioma. Por default se encuent
 *Agrega un recorrido al mapa*
 #####Parámetros
   * **recorrido**: `Object` recorrido a ser agregado. El mismo debe seguir cierta [estructura](https://www.npmjs.com/package/@usig-gcba/recorridos)
+
+####ocultarRecorrido(recorrido: Object)
+*Remueve el recorrido del mapa*
+#####Parámetros
+  * **recorrido**: `Object` recorrido a ser removido.
