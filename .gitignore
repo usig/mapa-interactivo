@@ -30,3 +30,4 @@ node_modules
 .idea
 .vscode
 lib/*
+package-lock.json

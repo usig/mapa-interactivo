@@ -1,13 +1,14 @@
 # Mapa Interactivo
 Una manera simple de crear un mapa de la Ciudad de Buenos Aires y alrededores utilizando la libreria [leaflet](http://leafletjs.com/).
 
-#Instalación
+# Instalación
 ```
 npm install @gcba-usig/mapa-interactivo
 ```
 
-#Cómo usarlo
-###ES6
+# Cómo usarlo
+
+### ES6
 
 ```javascript
 import MapaInteractivo from '@usig-gcba/mapa-interactivo'
@@ -15,8 +16,9 @@ import MapaInteractivo from '@usig-gcba/mapa-interactivo'
 const mapaInteractivo = new MapaInteractivo("mapa-id", {center: [34.5, 29.4]});
 ```
 
-#API
-####new MapaInteractivo(id: String, opciones?: Object) => MapaInteractivo
+# API
+
+#### new MapaInteractivo(id: String, opciones?: Object) => MapaInteractivo
 * **id**: id del elemento html donde se debe insertar el mapa
 * **opciones**: objecto de configuracion con cualquiera de las siguientes propiedades:
 
@@ -40,7 +42,8 @@ const mapaInteractivo = new MapaInteractivo("mapa-id", {center: [34.5, 29.4]});
 | **activeMarker** | [*Icon*](http://leafletjs.com/reference-1.3.0.html#icon)      |   ![alt text](https://mapa.buenosaires.gob.ar/imgs/marker-icon.png "Marcador") |Icono del marcador activo|
 | **marker** | [*Icon*](http://leafletjs.com/reference-1.3.0.html#icon)      |   ![alt text](http://mapa.buenosaires.gob.ar/imgs/marker-target.png "Marcador") |Icono del marcador default |
 
-#####*opciones.baseLayer?: Object*
+##### *opciones.baseLayer?: Object*
+
 | Opcion        | Tipo           | Default  | Descripcion |
 | ------------- |:-------------: | :---------:| :----------: |
 | **params.maxZoom** | *Number*      |   `18` |Zoom máximo sobre el mapa|
