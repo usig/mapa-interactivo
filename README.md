@@ -49,7 +49,8 @@ const mapaInteractivo = new MapaInteractivo("mapa-id", {center: [34.5, 29.4]});
 | **params.maxZoom** | *Number*      |   `18` |Zoom máximo sobre el mapa|
 | **params.minZoom** | *Number*      |   `9` |Zoom minimo sobre el mapa|
 
-#####*opciones.texts?: Object*
+##### *opciones.texts?: Object*
+
 Objeto conteniendo los textos definidos para cada idioma. Por default se encuentran los siguientes textos: 
 ```javascript
    texts: {
@@ -67,20 +68,25 @@ Objeto conteniendo los textos definidos para cada idioma. Por default se encuent
      }
    }
 ```
-####getMapa() => LeafletMap
+#### getMapa() => LeafletMap
+
 *Retorna la instancia interna del mapa*
 
-####addPublicLayer(layerName: String, options: Object)
+#### addPublicLayer(layerName: String, options: Object)
+
 *Agrega una capa en base a su nombre*
   * **layerName**: `String` indicando el nombre de la capa perteneciente a una de las [capas disponibles](http://epok.buenosaires.gob.ar/mapainteractivoba/layers).
 
-####removePublicLayer(layerName: String)
+#### removePublicLayer(layerName: String)
+
 *Remueve una capa en base a su nombre*
   * **layerName**: `String` indicando el nombre de la capa
   
-####addMarker(latlng: Object, visible: boolean, draggable: boolean, goTo: boolean, activate: boolean, clickable: boolean, options: Object) => markerId: Number
+#### addMarker(latlng: Object, visible: boolean, draggable: boolean, goTo: boolean, activate: boolean, clickable: boolean, options: Object) => markerId: Number
+
 *Agrega un marcador en la posicion especificada, retornando su id*
-#####Parámetros
+##### Parámetros
+
   * **latlng**: `Object` posicion del marcador
     * **lat**: `Number` latitud
     * **lng**: `Number` longitud
@@ -90,44 +96,47 @@ Objeto conteniendo los textos definidos para cada idioma. Por default se encuent
   * **activate**: `boolean` indicando si se debe activar el marcador
   * **clickable**: `boolean` indicando si el marcador puede ser clickeado
   * **options**: `Object` datos a guardar dentro del marcador
-#####Return
+##### Return
+
   * **markerId**: `Number` id del marcador generado
   
-####selectMarker(markerId: String)
+#### selectMarker(markerId: String)
+
 *Selecciona el marcador indicado*
-#####Parámetros
+##### Parámetros
+
   * **markerId**: `Number` id del marcador a seleccionar
 
-####selectMarker(markerId: String) => boolean
+#### selectMarker(markerId: String) => boolean
 *Pregunta si el marcador esta activo*
-#####Parámetros
+##### Parámetros
   * **markerId**: `Number` id del marcador a analizar
   
-####removeMarker(markerId: String)
+#### removeMarker(markerId: String)
 *Remueve el marcador indicado*
-#####Parámetros
+##### Parámetros
   * **markerId**: `Number` id del marcador a remover
-#####Return
+##### Return
   * **seleccionado**: `boolean` indicando si el marcador esta seleccionado
   
-####addLocationMarker(position: Object, recenter: boolean, zoomIn: boolean) => [L.Marker](http://leafletjs.com/reference-1.3.0.html#marker)
+#### addLocationMarker(position: Object, recenter: boolean, zoomIn: boolean) => [L.Marker](http://leafletjs.com/reference-1.3.0.html#marker)
 *Agrega al mapa un marcador de ubicación actual en la posicion especificada*
-#####Parámetros
+##### Parámetros
   * **position**: `Object` posicion del marcador
     * **coords**: `Object`
       * **latitude**: `Number` latitud
       * **longitude**: `Number` longitud
   * **recenter**: `boolean` indicando si el mapa debe recentrarse en la posicion del marcador
   * **zoomIn**: `boolean` indicando si se debe ajustar el nivel de zoom
-#####Return
+##### Return
   * **marker**: `L.marker` marcador agregado
   
-####mostrarRecorrido(recorrido: Object)
+#### mostrarRecorrido(recorrido: Object)
 *Agrega un recorrido al mapa*
-#####Parámetros
+##### Parámetros
   * **recorrido**: `Object` recorrido a ser agregado. El mismo debe seguir cierta [estructura](https://www.npmjs.com/package/@usig-gcba/recorridos)
 
-####ocultarRecorrido(recorrido: Object)
+#### ocultarRecorrido(recorrido: Object)
 *Remueve el recorrido del mapa*
-#####Parámetros
+##### Parámetros
   * **recorrido**: `Object` recorrido a ser removido.
