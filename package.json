@@ -1,6 +1,6 @@
 {
   "name": "@usig-gcba/mapa-interactivo",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "description": "Mapa interactivo ",
   "main": "lib/mapainteractivo.min.js",
   "scripts": {
@@ -8,6 +8,13 @@
     "dev": "webpack --progress --colors --watch --env dev",
     "test": "mocha --compilers js:babel-core/register --colors ./test/*.spec.js",
     "test:watch": "mocha --compilers js:babel-core/register --colors -w ./test/*.spec.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/usig/mapa-interactivo"
+  },
+  "bugs": {
+    "url": "https://github.com/usig/mapa-interactivo/issues"
   },
   "devDependencies": {
     "babel-cli": "6.24.1",

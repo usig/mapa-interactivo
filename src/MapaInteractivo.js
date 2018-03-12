@@ -128,7 +128,8 @@ class MapaInteractivo {
         // this.msgControl.show('Cargando...')
         if (params.scaleControl)
           L.control.scale({ imperial: false, position: "bottomleft" }).addTo(this.map);
-        this.baseLayer = L.tileLayer(this.config.baseLayer.uri, this.config.baseLayer.params).addTo(this.map);
+        this.baseLayer = L.tileLayer(this.config.baseLayer.uri, this.config.baseLayer.params);
+        this.baseLayer.addTo(this.map);
         this.map.on('contextmenu', this._onContextMenu, this);
         this.map.on('click', this._onClick, this);
         this.map.on('zoomstart', this._onMoveStart, this);
@@ -413,7 +414,7 @@ class MapaInteractivo {
         }
     }
 
-    addPublicLayer(layerName, options) {
+    addPublicLayer(layerName, options = {}) {
         if (layerName !== this._activeLayer) {
           console.log('addPublicLayer', layerName, this._activeLayer);
           this._layers[layerName] = Object.assign({}, this._layers[layerName], options);
@@ -422,7 +423,9 @@ class MapaInteractivo {
             if (!this._layers[layerName]) {
               this._layers[layerName] = [];
             }
-            if (options && options.clustering) {
+            if (options.baseLayer)
+              this.setBaseLayer(options.baseLayer);
+            else if (options && options.clustering) {
               this._loadLayer(layerName, this._markersClusterLayerGroup);
             } else {
               this._loadLayer(layerName, this._layerGroup);
@@ -443,23 +446,40 @@ class MapaInteractivo {
       this._activeLayer = null;
       if (this.onClickFeature) this.map.removeLayer(this.onClickFeature);
       if (this.layersDefs[layerName]) {
-        if (this._layers[layerName]) {
-                  Object.entries(this.layersDefs[layerName]).forEach((layer) => {
-                      try {
-                          if (!this._loadingLayer) {
-                            if (this._layers[layerName].clustering) {
-                              this._markersClusterLayerGroup.removeLayer(this._layers[layerName][layer[0]]);
-                            } else {
-                              this._layerGroup.removeLayer(this._layers[layerName][layer[0]]);
-                            }
-                          }
-                          clearTimeout(this._layers[layerName].refreshTimeout);
-                      } catch(e) {
-                          console.error(e);
-                      }
-                  });
+        if (this._layers[layerName] && !this._layers[layerName].baseLayer) {
+          Object.entries(this.layersDefs[layerName]).forEach((layer) => {
+              try {
+                  if (!this._loadingLayer) {
+                    if (this._layers[layerName].clustering) {
+                      this._markersClusterLayerGroup.removeLayer(this._layers[layerName][layer[0]]);
+                    } else {
+                      this._layerGroup.removeLayer(this._layers[layerName][layer[0]]);
+                    }
+                  }
+                  clearTimeout(this._layers[layerName].refreshTimeout);
+              } catch(e) {
+                  console.error(e);
               }
+          });
+        }
       }
+      if (this._layers[layerName].baseLayer)
+        this.setBaseLayer();
+    }
+
+    setBaseLayer(baseLayer) {
+      if (this.baseLayer)
+        this.map.removeLayer(this.baseLayer);
+      if (!baseLayer) {
+        this.baseLayer = L.tileLayer(this.config.baseLayer.uri, this.config.baseLayer.params);
+      }
+      else if (baseLayer.uri) {
+        this.baseLayer = L.tileLayer(baseLayer.uri, Object.assign ({}, baseLayer.params, this.config.baseLayer.params));
+      }
+      else {
+        this.baseLayer = baseLayer;
+      }
+      this.baseLayer.addTo(this.map);
     }
 
     _onContextMenu(ev) {

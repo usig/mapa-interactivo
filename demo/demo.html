@@ -18,5 +18,14 @@
     language: "en",
     attributionControl: true
   });
+  map.addPublicLayer("estacionamiento_en_via_publica", {
+    baseLayer: {
+      uri: "http://tiles1.usig.buenosaires.gob.ar/mapcache/tms/1.0.0/estacionamiento_en_via_publica_caba_3857@GoogleMapsCompatible/{z}/{x}/{y}.png"
+    }
+  });
+  setTimeout(() => {
+    map.removePublicLayer("estacionamiento_en_via_publica");
+    map.addPublicLayer("cajeros_automaticos", {clustering: true});
+  }, 10000)
 </script>
 </html>
