@@ -119,7 +119,6 @@ class MapaInteractivo {
         }).addTo(this.map);
         this._markers = {};
         this._recorridos = {}
-        this._activeMarker = null;
         this._layers = {};
         this._lastFitBounds = null;
 		this._layerGroup = L.layerGroup().addTo(this.map);
@@ -313,7 +312,6 @@ class MapaInteractivo {
         const self = this;
         const conf = this.layersDefs[layerName];
         this._loadingLayer = true;
-        this._activeLayer = layerName;
         Object.entries(conf).forEach((layer) => {
           switch(layer[1].format) {
             case 'geojson':
@@ -322,12 +320,12 @@ class MapaInteractivo {
                         fetch(layer[1].url)
                         .then((res) => res.json())
                         .then((data) => {
-                            if (layerName === self._activeLayer) {
+                            if (self._layers[layerName]) {
                               self._addLayer(layerName, layer[0], layerGroup||self._layerGroup, data);
                               this._loadingLayer = false;
                             }
                         }).catch((err) => {
-                          if (layerName === self._activeLayer) {
+                          if (self._layers[layerName]) {
                             console.error(err);
                             self.msgControl.show(this.config.texts[this.config.language].errorLoadingInformation);
                             this._loadingLayer = false;
@@ -415,13 +413,12 @@ class MapaInteractivo {
     }
 
     addPublicLayer(layerName, options = {}) {
-        if (layerName !== this._activeLayer) {
-          console.log('addPublicLayer', layerName, this._activeLayer);
-          this._layers[layerName] = Object.assign({}, this._layers[layerName], options);
+      console.log ("add layer")
+        if (!this._layers[layerName]) {
           this.inactivateMarker();
           if (this.layersDefs && this.layersDefs[layerName]) {
             if (!this._layers[layerName]) {
-              this._layers[layerName] = [];
+              this._layers[layerName] = Object.assign({}, this._layers[layerName], options);
             }
             if (options.baseLayer)
               this.setBaseLayer(options.baseLayer);
@@ -443,28 +440,31 @@ class MapaInteractivo {
     }
 
     removePublicLayer(layerName) {
-      this._activeLayer = null;
       if (this.onClickFeature) this.map.removeLayer(this.onClickFeature);
       if (this.layersDefs[layerName]) {
-        if (this._layers[layerName] && !this._layers[layerName].baseLayer) {
-          Object.entries(this.layersDefs[layerName]).forEach((layer) => {
+        if (this._layers[layerName]) {
+          if (this._layers[layerName].baseLayer)
+            this.setBaseLayer();
+          else {
+            Object.entries(this.layersDefs[layerName]).forEach((layer) => {
               try {
-                  if (!this._loadingLayer) {
-                    if (this._layers[layerName].clustering) {
-                      this._markersClusterLayerGroup.removeLayer(this._layers[layerName][layer[0]]);
-                    } else {
-                      this._layerGroup.removeLayer(this._layers[layerName][layer[0]]);
-                    }
+                if (!this._loadingLayer) {
+                  if (this._layers[layerName].clustering) {
+                    this._markersClusterLayerGroup.removeLayer(this._layers[layerName][layer[0]]);
+                  } else {
+                    this._layerGroup.removeLayer(this._layers[layerName][layer[0]]);
                   }
-                  clearTimeout(this._layers[layerName].refreshTimeout);
+                }
+                clearTimeout(this._layers[layerName].refreshTimeout);
               } catch(e) {
-                  console.error(e);
+                console.error(e);
               }
-          });
+            });
+          }
+          delete this._layers[layerName];
         }
       }
-      if (this._layers[layerName].baseLayer)
-        this.setBaseLayer();
+      console.log (this._layers)
     }
 
     setBaseLayer(baseLayer) {
@@ -493,14 +493,13 @@ class MapaInteractivo {
         this.inactivateMarker();
         this.config.onClick(ev);
       }
-      if (this._activeLayer) {
-        const layer = this._layers[this._activeLayer];
+      _.forOwn(this._layers, (layer, layerName) => {
         if (layer.callAPIOnClick) {
           console.log (layer);
           const url = (layer.onClickAPI || this.config.layers.apiUrl + this.config.layers.reverseGeocodeUrl)
-              .replace("$lng", ev.latlng.lng)
-              .replace("$lat", ev.latlng.lat)
-              .replace("$categories", this._activeLayer);
+            .replace("$lng", ev.latlng.lng)
+            .replace("$lat", ev.latlng.lat)
+            .replace("$categories", layerName);
 
           fetch(url).then ((res) => res.json()).then((data) => {
             if (this.onClickFeature) this.map.removeLayer(this.onClickFeature);
@@ -515,7 +514,7 @@ class MapaInteractivo {
               });
               this.onClickFeature.addTo(this.map);
               if (typeof(this.config.onFeatureClick) === "function") {
-                this.config.onFeatureClick(geometria.features[0], "", "");
+                this.config.onFeatureClick(geometria.features[0], layer.layerId, layerName);
               }
             }
             else console.log ("DIDN'T FIND PLACES");
@@ -524,7 +523,7 @@ class MapaInteractivo {
         else {
           console.log ('Layer has no on click api call')
         }
-      }
+      });
     }
 
     _onMoveStart(ev) {
@@ -542,6 +541,7 @@ class MapaInteractivo {
     _onMarkerClick(ev) {
       this.selectMarker(ev.target.options.markerId)
     }
+
     selectMarker(markerId) {
       this.inactivateMarker();
       const marker = markerId === "-1" ? this._locationMarker : this._markers[markerId];
@@ -551,6 +551,7 @@ class MapaInteractivo {
         this.config.onMarkerClick(marker.options.markerId, marker);
       }
     }
+
     inactivateMarker() {
         if (this._activeMarker) {
             this._activeMarker.setIcon(this.config.marker);
@@ -571,6 +572,7 @@ class MapaInteractivo {
         this._activeMarker = this._markers[markerId];
       }
     }
+
     isMarkerActive(markerId){
       return this._activeMarker && this._activeMarker.options.markerId === markerId
     }
@@ -625,20 +627,6 @@ class MapaInteractivo {
 		this._markers[id] = undefined;
 		delete this._markers[id];
 	}
-
-	// goToMarker(id, zoomIn) {
-	// 	try {
-	// 		var marker = this._markers[id];
-	// 		if (!marker.visible) {
-	// 			this.markersLayerGroup.addLayer(marker);
-	// 			marker.visible = true;
-    //         }
-    //         this.goToMarker(marker, zoomIn);
-	// 	} catch(e) {
-	// 		return false;
-	// 	}
-	// 	return true;
-    // }
 
     getMapViewport() {
         return {

@@ -11,6 +11,18 @@
 </head>
 <body>
   <div id="map"></div>
+  <div>
+    <button onclick="addLayerEstacionamientos()">Capa estacionamientos</button>
+    <button onclick="addLayer('cajeros_automaticos')">Capa bancos</button>
+    <button onclick="addLayer('wifi_gratis')">Capa wifi</button>
+    <button onclick="addLayer('red_de_ciclovias')">Capa bici</button>
+  </div>
+  <div>
+    <button onclick="map.removePublicLayer('estacionamiento_en_via_publica')">Remover capa estacionamientos</button>
+    <button onclick="map.removePublicLayer('cajeros_automaticos')">Remover capa bancos</button>
+    <button onclick="map.removePublicLayer('wifi_gratis')">Remover capa wifi</button>
+    <button onclick="map.removePublicLayer('red_de_ciclovias')">Remover capa bici</button>
+  </div>
 </body>
 <script src="../lib/mapainteractivo.js"></script>
 <script>
@@ -18,14 +30,24 @@
     language: "en",
     attributionControl: true
   });
-  map.addPublicLayer("estacionamiento_en_via_publica", {
-    baseLayer: {
-      uri: "http://tiles1.usig.buenosaires.gob.ar/mapcache/tms/1.0.0/estacionamiento_en_via_publica_caba_3857@GoogleMapsCompatible/{z}/{x}/{y}.png"
-    }
-  });
-  setTimeout(() => {
-    map.removePublicLayer("estacionamiento_en_via_publica");
-    map.addPublicLayer("cajeros_automaticos", {clustering: true});
-  }, 10000)
+
+  function addLayerEstacionamientos() {
+    map.addPublicLayer("estacionamiento_en_via_publica", {
+      callAPIOnClick: true,
+      onClickAPI: "http://epok.buenosaires.gob.ar/atlasvial/buscarInformacionEstacionamiento/?formato=geojson&fullInfo=True&x=$lng&y=$lat&categorias=$categories",
+      baseLayer: {
+        uri: "http://tiles1.usig.buenosaires.gob.ar/mapcache/tms/1.0.0/estacionamiento_en_via_publica_caba_3857@GoogleMapsCompatible/{z}/{x}/{y}.png"
+      }
+    });
+  }
+
+  function addLayer(id) {
+    map.addPublicLayer(id, {clustering: true});
+  }
+
+//  setTimeout(() => {
+//    map.removePublicLayer("estacionamiento_en_via_publica");
+//    map.addPublicLayer("cajeros_automaticos", {clustering: true});
+//  }, 10000)
 </script>
 </html>
