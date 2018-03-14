@@ -1,8 +1,8 @@
 {
   "name": "@usig-gcba/mapa-interactivo",
-  "version": "1.0.10",
+  "version": "1.0.11",
   "description": "Mapa interactivo ",
-  "main": "lib/mapainteractivo.min.js",
+  "main": "lib/MapaInteractivo.min.js",
   "scripts": {
     "build": "webpack --env build",
     "dev": "webpack --progress --colors --watch --env dev",

@@ -3,7 +3,7 @@ Una manera simple de crear un mapa de la Ciudad de Buenos Aires y alrededores ut
 
 # Instalación
 ```
-npm install @gcba-usig/mapa-interactivo
+npm install @usig-gcba/mapa-interactivo
 ```
 
 # Cómo usarlo
