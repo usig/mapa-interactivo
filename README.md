@@ -72,15 +72,46 @@ Objeto conteniendo los textos definidos para cada idioma. Por default se encuent
 
 *Retorna la instancia interna del mapa*
 
-#### addPublicLayer(layerName: String, options: Object)
+#### addPublicLayer(layerName: String, options?: Object)
 
 *Agrega una capa en base a su nombre*
   * **layerName**: `String` indicando el nombre de la capa perteneciente a una de las [capas disponibles](http://epok.buenosaires.gob.ar/mapainteractivoba/layers).
-
+  * **options**: `Object` conteniendo atributos opcionales de la capa
+    * **clustering**: `boolean` si la capa debe ser clusterizada
+    * **callAPIOnClick**: `boolean` en caso de `true`, se hace un llamado a la API especificada al hacer click sobre el mapa
+    * **onClickAPI**: `String` API a la que se debe llamar al hacer click sobre el mapa
+    * **layerId**: `String` identificador de la capa
+    * **baseLayer**: en caso de que se incluya este parametro, la capa sera agregada como una capa base.
+      * **Posibles tipos**
+        * `Object`
+          * **uri**: `String` uri utilizado para descargar la capa
+          * **options**: `Object` opciones de [L.tileLayer](http://leafletjs.com/reference-1.3.0.html#tilelayer-option)
+        * [`L.tileLayer`](http://leafletjs.com/reference-1.3.0.html#tilelayer)
+    
 #### removePublicLayer(layerName: String)
 
 *Remueve una capa en base a su nombre*
-  * **layerName**: `String` indicando el nombre de la capa
+  * **layerName**: `String` nombre de la capa
+  
+#### setBaseLayer()
+
+*Agrega la capa base default del mapa*
+
+#### setBaseLayer(baselayer: [L.tileLayer](http://leafletjs.com/reference-1.3.0.html#tilelayer))
+
+*Cambia la capa base del mapa*
+##### Parámetros
+
+  * **baseLayer**: `L.tileLayer` la nueva base a agregar
+  
+#### setBaseLayer(baselayer: Object)
+
+*Cambia la capa base del mapa*
+##### Parámetros
+
+  * **baseLayer**: `Object` la nueva base a agregar conteniendo:
+    * **uri**: `String` uri utilizado para descargar la capa
+    * **options**: `Object` opciones de [L.tileLayer](http://leafletjs.com/reference-1.3.0.html#tilelayer-option)
   
 #### addMarker(latlng: Object, visible: boolean, draggable: boolean, goTo: boolean, activate: boolean, clickable: boolean, options: Object) => markerId: Number
 
@@ -98,7 +129,7 @@ Objeto conteniendo los textos definidos para cada idioma. Por default se encuent
   * **options**: `Object` datos a guardar dentro del marcador
 ##### Return
 
-  * **markerId**: `Number` id del marcador generado
+  * `Number` id del marcador generado
   
 #### selectMarker(markerId: String)
 
