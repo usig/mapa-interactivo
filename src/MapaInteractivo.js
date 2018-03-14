@@ -413,7 +413,6 @@ class MapaInteractivo {
     }
 
     addPublicLayer(layerName, options = {}) {
-      console.log ("add layer")
         if (!this._layers[layerName]) {
           this.inactivateMarker();
           if (this.layersDefs && this.layersDefs[layerName]) {
@@ -493,19 +492,22 @@ class MapaInteractivo {
         this.inactivateMarker();
         this.config.onClick(ev);
       }
+      let messageControl;
+
       _.forOwn(this._layers, (layer, layerName) => {
         if (layer.callAPIOnClick) {
-          console.log (layer);
           const url = (layer.onClickAPI || this.config.layers.apiUrl + this.config.layers.reverseGeocodeUrl)
             .replace("$lng", ev.latlng.lng)
             .replace("$lat", ev.latlng.lat)
             .replace("$categories", layerName);
-
+          if (!messageControl) this.msgControl.show(this.config.texts[this.config.language].loadingInformation);
+          if (this.onClickFeature) {
+            this.map.removeLayer(this.onClickFeature);
+            this.onClickFeature = null;
+          }
           fetch(url).then ((res) => res.json()).then((data) => {
-            if (this.onClickFeature) this.map.removeLayer(this.onClickFeature);
-            console.log (data);
+            this.msgControl.hide();
             if (data.features && data.features.length > 0) {
-              console.log ("SELECT FROM MAP: ", data);
               const geometria = data;
               this.onClickFeature = L.geoJSON(geometria.features[0], {
                 style: {
@@ -517,11 +519,7 @@ class MapaInteractivo {
                 this.config.onFeatureClick(geometria.features[0], layer.layerId, layerName);
               }
             }
-            else console.log ("DIDN'T FIND PLACES");
           })
-        }
-        else {
-          console.log ('Layer has no on click api call')
         }
       });
     }
