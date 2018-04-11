@@ -28,6 +28,9 @@ const mapaInteractivo = new MapaInteractivo("mapa-id", {center: [34.5, 29.4]});
 | **onContextMenu** | *function* | null |Callback llamado al hacer click derecho sobre el mapa |
 | **onMoveStart** | *function* | null |Callback llamado al comienzo de un movimiento generado en el mapa (tanto por zoom como por desplazamiento) |
 | **onMoveEnd** | *function* | null |Callback llamado al final de un movimiento generado en el mapa|
+| **onMarkerDragEnd** | *function* | null |Callback llamado luego de arrastrar un marcador|
+| **onFeatureClick** | *function* | null |Callback llamado al seleccionar un feature|
+| **onInactivateMarker** | *function* | null |Callback llamado al desactivar un marcador|
 | **center** | *[Number, Number]*     |    `[-34.62,   -58.44]` |Centro del mapa al iniciar|
 | **zoomControl** | *boolean*      |   `false` |Mostrar el control de zoom cuando es `true`|
 | **zoom** | *Number*      |   `13` |Nivel de zoom del mapa al iniciar|

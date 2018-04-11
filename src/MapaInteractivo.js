@@ -245,7 +245,15 @@ class MapaInteractivo {
         this._mostrandoMarkersRecorrido = true;
       }
     }
-
+    ocultarMarkersRecorrido() {
+      if (this.toMarkerId && this.fromMarkerId) {
+        this.removeMarker(this.toMarkerId);
+        this.removeMarker(this.fromMarkerId);
+        this._mostrandoMarkersRecorrido = false;
+        this.toMarkerId = undefined;
+        this.fromMarkerId = undefined;
+      }
+    }
     refitBounds() {
         this.map.fitBounds(this._lastFitBounds, this._fitBoundsOptions);
     }
@@ -256,13 +264,17 @@ class MapaInteractivo {
         }
     }
 
-    ocultarRecorrido(r) {
+    ocultarRecorrido(r, ocultarMarkers) {
         // console.log('ocultarRecorrido', r);
-        if (r && r.id && this._recorridos[r.id] && this._recorridos[r.id]._layer) {
-            this._layerGroup.removeLayer(this._recorridos[r.id]._layer);
-            delete this._recorridos[r.id]._layer;
-            delete this._recorridos[r.id];
+        const id = r.id || r;
+        if (id && this._recorridos[id] && this._recorridos[id]._layer) {
+            this._layerGroup.removeLayer(this._recorridos[id]._layer);
+            delete this._recorridos[id]._layer;
+            delete this._recorridos[id];
             this.msgControl.hide();
+            if (ocultarMarkers && this._mostrandoMarkersRecorrido) {
+              this.ocultarMarkersRecorrido();
+            }
         }
     }
 
@@ -310,8 +322,9 @@ class MapaInteractivo {
 	_loadLayer(layerName, layerGroup) {
         // console.log('loadLayer', layerName, layerGroup);
         const self = this;
-        const conf = this.layersDefs[layerName];
-        this._loadingLayer = true;
+    const conf = layerName.indexOf(".") === -1 ? this.layersDefs[layerName] : {[layerName]: this.layersDefs[layerName.split('.')[0]][layerName.split('.')[1]]};
+
+    this._loadingLayer = true;
         Object.entries(conf).forEach((layer) => {
           switch(layer[1].format) {
             case 'geojson':
@@ -378,8 +391,9 @@ class MapaInteractivo {
     }
 
 	_addLayer(layerName, layerId, layerGroup, data) {
+      const layer = layerName.indexOf(".") === -1 ? this.layersDefs[layerName] : {[layerName]: this.layersDefs[layerName.split('.')[0]][layerName.split('.')[1]]};
 		this.msgControl.hide();
-		const builder = (this._layerBuilders[layerId] || !this.layersDefs[layerName][layerId].builder)?layerId:this.layersDefs[layerName][layerId].builder;
+		const builder = (this._layerBuilders[layerId] || !layer[layerId].builder)?layerId:layer[layerId].builder;
         try {
             if (this._layerBuilders[builder]) {
                 if (!this._layers[layerName]) {
@@ -389,14 +403,14 @@ class MapaInteractivo {
                     layerGroup.removeLayer(this._layers[layerName][layerId]);
                 }
                 this._layers[layerName][layerId] = this._layerBuilders[builder](data, undefined,
-                    this.layersDefs[layerName][layerId].style, this.layersDefs[layerName][layerId].icon);
+                  layer[layerId].style, layer[layerId].icon);
                 this._layers[layerName][layerId].on('click', this._onFeatureClick.bind(this));
                 this._layers[layerName][layerId].options.layerId = layerId;
                 this._layers[layerName][layerId].options.layerName = layerName;
                 layerGroup.addLayer(this._layers[layerName][layerId]);
                 this._layers[layerName][layerId].fire('add');
                 layerGroup.addTo(this.map);
-                if (this.layersDefs[layerName][layerId].options && this.layersDefs[layerName][layerId].options.refresh) {
+                if (layer[layerId].options && layer[layerId].options.refresh) {
                     // console.log('auto refresh', layerName, layerGroup);
                     clearTimeout(this._layers[layerName].refreshTimeout);
                     const self = this;
@@ -415,16 +429,19 @@ class MapaInteractivo {
     addPublicLayer(layerName, options = {}) {
         if (!this._layers[layerName]) {
           this.inactivateMarker();
-          if (this.layersDefs && this.layersDefs[layerName]) {
-            if (!this._layers[layerName]) {
-              this._layers[layerName] = Object.assign({}, this._layers[layerName], options);
-            }
-            if (options.baseLayer)
-              this.setBaseLayer(options.baseLayer);
-            else if (options && options.clustering) {
-              this._loadLayer(layerName, this._markersClusterLayerGroup);
-            } else {
-              this._loadLayer(layerName, this._layerGroup);
+          if (this.layersDefs) {
+            const layer = layerName.indexOf(".") === -1 ? this.layersDefs[layerName] : this.layersDefs[layerName.split('.')[0]][layerName.split('.')[1]];
+            if (layer) {
+              if (!this._layers[layerName]) {
+                this._layers[layerName] = Object.assign({}, this._layers[layerName], options);
+              }
+              if (options.baseLayer)
+                this.setBaseLayer(options.baseLayer);
+              else if (options && options.clustering) {
+                this._loadLayer(layerName, this._markersClusterLayerGroup);
+              } else {
+                this._loadLayer(layerName, this._layerGroup);
+              }
             }
           } else if (!this.layersDefs) {
             // console.log('Must load layers defs');
@@ -439,13 +456,14 @@ class MapaInteractivo {
     }
 
     removePublicLayer(layerName) {
+      const layer = layerName.indexOf(".") === -1 ? this.layersDefs[layerName] : {[layerName]: this.layersDefs[layerName.split('.')[0]][layerName.split('.')[1]]};
       if (this.onClickFeature) this.map.removeLayer(this.onClickFeature);
-      if (this.layersDefs[layerName]) {
+      if (layer) {
         if (this._layers[layerName]) {
           if (this._layers[layerName].baseLayer)
             this.setBaseLayer();
           else {
-            Object.entries(this.layersDefs[layerName]).forEach((layer) => {
+            Object.entries(layer).forEach((layer) => {
               try {
                 if (!this._loadingLayer) {
                   if (this._layers[layerName].clustering) {
@@ -695,6 +713,10 @@ class MapaInteractivo {
 
     getMapa() {
       return this.map;
+    }
+
+    getMapEngine() {
+      return L;
     }
 }
 
