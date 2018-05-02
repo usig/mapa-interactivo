@@ -418,6 +418,9 @@ class MapaInteractivo {
                         self.loadLayer(layerName, layerGroup)
                     }, this.Layers[layerName][layerId].options.refresh);
                 }
+              if (typeof(this.config.onLayerLoaded) === "function") {
+                this.config.onLayerLoaded(layerName, layerId);
+              }
             } else {
                 throw("LayerBuilderNotDefined");
             }
@@ -561,8 +564,8 @@ class MapaInteractivo {
     selectMarker(markerId) {
       this.inactivateMarker();
       const marker = markerId === "-1" ? this._locationMarker : this._markers[markerId];
-      this.activateMarker(marker.options.markerId)
-      this.map.flyTo(marker.getLatLng())
+      this.activateMarker(marker.options.markerId);
+      this.map.flyTo(marker.getLatLng());
       if (typeof(this.config.onMarkerClick) === "function") {
         this.config.onMarkerClick(marker.options.markerId, marker);
       }
@@ -674,7 +677,7 @@ class MapaInteractivo {
         });
         this._locationMarker = L.marker(
             L.latLng(pos.coords.latitude, pos.coords.longitude),
-            { icon: iconLocation, markerId: "-1", id: "-1" , zIndexOffset: 1000}
+            { icon: iconLocation, markerId: "-1", id: "-1" , zIndexOffset: 1000, lat: pos.coords.latitude, lon: pos.coords.longitude}
         ).addTo(this.map);
         this._locationMarker.on('click', this._onMarkerClick.bind(this));
     }

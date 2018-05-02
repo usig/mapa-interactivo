@@ -28,7 +28,8 @@
 <script>
   let map = new MapaInteractivo("map", {
     language: "en",
-    attributionControl: true
+    attributionControl: true,
+    onLayerLoaded: function (layerName, layerId) {console.log (layerName, layerId)}
   });
 
   function addLayerEstacionamientos() {
