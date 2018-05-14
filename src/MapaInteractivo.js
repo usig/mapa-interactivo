@@ -368,6 +368,7 @@ class MapaInteractivo {
 
     _onFeatureClick(e) {
         // console.log(e);
+        this.inactivateMarker();
         const layerId = e.target && e.target.options?e.target.options.layerId:'';
         const layerName = e.target && e.target.options?e.target.options.layerName:'';
         // this.map.flyTo(e.latlng, this.config.featureZoomInLevel)

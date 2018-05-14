@@ -29,7 +29,8 @@
   let map = new MapaInteractivo("map", {
     language: "en",
     attributionControl: true,
-    onLayerLoaded: function (layerName, layerId) {console.log (layerName, layerId)}
+    onLayerLoaded: function (layerName, layerId) {console.log (layerName, layerId)},
+    onContextMenu: onContextMenu
   });
 
   function addLayerEstacionamientos() {
@@ -44,6 +45,9 @@
 
   function addLayer(id) {
     map.addPublicLayer(id, {clustering: true});
+  }
+  function onContextMenu(ev) {
+    const id = map.addMarker(ev.latlng, true, true);
   }
 
 //  setTimeout(() => {
