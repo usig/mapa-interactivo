@@ -47,7 +47,7 @@
     map.addPublicLayer(id, {clustering: true});
   }
   function onContextMenu(ev) {
-    const id = map.addMarker(ev.latlng, true, true);
+    const id = map.addMarker(ev.latlng, true, false, false, false, false, {iconUrl: 'http://static.usig.buenosaires.gob.ar/symbols/bases_extrahospitalarias.png'});
   }
 
 //  setTimeout(() => {
