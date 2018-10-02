@@ -13,8 +13,10 @@ npm install @usig-gcba/mapa-interactivo
 ```javascript
 import MapaInteractivo from '@usig-gcba/mapa-interactivo'
 
-const mapaInteractivo = new MapaInteractivo("mapa-id", {center: [34.5, 29.4]});
+
+const mapaInteractivo = new MapaInteractivo("mapa-id", {center: [-34.62, -58.44]});
 ```
+Es importante que el div contenedor contenga las dimensiones deseadas previamente a inicializar el mapa.
 
 # API
 
@@ -134,14 +136,14 @@ Objeto conteniendo los textos definidos para cada idioma. Por default se encuent
 
   * `Number` id del marcador generado
   
-#### selectMarker(markerId: String)
+#### selectMarker(markerId: Number)
 
 *Selecciona el marcador indicado*
 ##### Parámetros
 
   * **markerId**: `Number` id del marcador a seleccionar
 
-#### selectMarker(markerId: String) => boolean
+#### isMarkerActive(markerId: Number) => boolean
 *Pregunta si el marcador esta activo*
 ##### Parámetros
   * **markerId**: `Number` id del marcador a analizar
