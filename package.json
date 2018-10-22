@@ -1,6 +1,6 @@
 {
   "name": "@usig-gcba/mapa-interactivo",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "Mapa interactivo ",
   "main": "lib/MapaInteractivo.min.js",
   "scripts": {

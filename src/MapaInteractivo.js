@@ -164,7 +164,6 @@ class MapaInteractivo {
         let auxRecorrido = this._recorridos[id];
         if (id === r.id)  {
           if (!auxRecorrido._layer) {
-            console.log (r.setOpacity);
             // this.ocultarRecorrido();
             this._recorridos[r.id] = Object.assign({}, r, {estilo: (r.setOpacity ? {opacity: 0.65, markerOpacity: 1} : {opacity: 0.35, markerOpacity: 0.35})});
             this._recorridos[r.id]._layer = recorrido(this._recorridos[r.id], r.tipo === 'car' || r.tipo === 'walk' ? null : Coords.toLngLat);
@@ -615,14 +614,14 @@ class MapaInteractivo {
         let id = options.markerId?options.markerId:new Date()*1 +random;
         const existentMarker = _.map(this._markers, (value) => value).filter((marker) => marker.options.id === (options.id || id))[0];
         if (!this._markers[id] && !existentMarker) {
-          const icon = options.iconUrl ?
+          const icon = options.icon || (options.iconUrl ?
             L.icon({
               iconUrl: options.iconUrl || activeMarkerIcon,
               iconSize: options.iconSize || [24, 38],
               iconAnchor: options.iconAnchor || [12, 31],
               popupAnchor: options.popupAnchor || [0, -22],
               shadowUrl: options.shadowUrl || ''
-            }) : (activate?this.config.activeMarker:this.config.marker);
+            }) : (activate?this.config.activeMarker:this.config.marker));
 
           let marker = L.marker(latlng, {icon: icon, clickable: clickable, draggable: draggable, markerId: id, id: options.id, zIndexOffset: 2000});
 
