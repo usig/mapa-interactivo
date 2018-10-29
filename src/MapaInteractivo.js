@@ -121,8 +121,8 @@ class MapaInteractivo {
         this._recorridos = {}
         this._layers = {};
         this._lastFitBounds = null;
-		this._layerGroup = L.layerGroup().addTo(this.map);
-        this._markersLayerGroup = L.layerGroup().addTo(this.map);
+		    this._layerGroup = L.layerGroup().addTo(this.map);
+        this._markersLayerGroup = L.featureGroup().addTo(this.map);
         this._markersClusterLayerGroup = new MarkerClusterGroup({showCoverageOnHover: false, maxClusterRadius: 30});
         // this.msgControl.show('Cargando...')
         if (params.scaleControl)
