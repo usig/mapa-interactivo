@@ -11,6 +11,7 @@
 </head>
 <body>
   <div id="map"></div>
+  <div id="images"></div>
   <div>
     <button onclick="addLayerEstacionamientos()">Capa estacionamientos</button>
     <button onclick="addLayer('centros_de_salud.centros_de_salud_y_accion_comunitaria')">Capa bancos</button>
@@ -27,6 +28,7 @@
 <script src="../lib/MapaInteractivo.js"></script>
 <script>
   let map = new MapaInteractivo("map", {
+    preferCanvas: true,
     language: "en",
     attributionControl: true,
     onLayerLoaded: function (layerName, layerId) {console.log (layerName, layerId)},
@@ -48,6 +50,18 @@
   }
   function onContextMenu(ev) {
     const id = map.addMarker(ev.latlng, true, false, false, false, false, {iconUrl: 'http://static.usig.buenosaires.gob.ar/symbols/bases_extrahospitalarias.png'});
+  }
+
+  function getImage() {
+    map.getStaticImage().then((canvas) => {
+      var img = document.createElement('img');
+      var dimensions = map.getMapa().getSize();
+      img.width = dimensions.x;
+      img.height = dimensions.y;
+      img.src = canvas.toDataURL();
+      document.getElementById('images').innerHTML = '';
+      document.getElementById('images').appendChild(img);
+    })
   }
 
 //  setTimeout(() => {

@@ -176,3 +176,8 @@ Objeto conteniendo los textos definidos para cada idioma. Por default se encuent
 *Remueve el recorrido del mapa*
 ##### Parámetros
   * **recorrido**: `Object` recorrido a ser removido.
+  
+#### getStaticImage()
+*Retorna un elemento canvas con la imágen del mapa*
+##### Return
+  * **canvas**: `Promise<canvas>` Promesa que resuelve con el canvas conteniendo la imágen.

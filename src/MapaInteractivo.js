@@ -21,6 +21,7 @@ import {Coords} from './utils/coordinates'
 import iconoOrigen from './imgs/marker-source.png'
 import iconoDestino from './imgs/marker-target.png'
 import _ from 'lodash'
+import leafletImage from './utils/leaflet-image';
 
 // Purge window.L early
 L.noConflict();
@@ -155,6 +156,18 @@ class MapaInteractivo {
         this.config.language = idioma;
       }
     }
+
+    getStaticImage() {
+      return new Promise((resolve, reject) => {
+        leafletImage(this.map, function(err, canvas) {
+          // now you have canvas
+          // example thing to do with that canvas:
+          if (err) reject();
+          resolve(canvas);
+        });
+      });
+    }
+
     mostrarRecorrido(r, options) {
       if (!this._recorridos[r.id]) {
         // this.ocultarRecorrido();

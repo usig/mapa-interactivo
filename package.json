@@ -1,6 +1,6 @@
 {
   "name": "@usig-gcba/mapa-interactivo",
-  "version": "1.1.2",
+  "version": "1.2.0",
   "description": "Mapa interactivo ",
   "main": "lib/MapaInteractivo.min.js",
   "scripts": {
@@ -37,6 +37,7 @@
     "leaflet"
   ],
   "dependencies": {
+    "d3-queue": "^3.0.7",
     "es6-promise": "^4.1.1",
     "exports-loader": "^0.7.0",
     "imports-loader": "^0.8.0",
