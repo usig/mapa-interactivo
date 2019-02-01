@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Demo mapa interactivo</title>
+    <style>
+      #map {
+        height: 500px;
+      }
+    </style>
+</head>
+<body>
+  <div id="map"></div>
+  <div id="images"></div>
+  <div>
+    <button onclick="mapa.addLayerEstacionamientos()">Capa estacionamientos</button>
+    <button onclick="mapa.addLayer('centros_de_salud.centros_de_salud_y_accion_comunitaria')">Capa bancos</button>
+    <button onclick="mapa.addLayer('wifi_gratis')">Capa wifi</button>
+    <button onclick="mapa.addLayer('red_de_ciclovias')">Capa bici</button>
+    <button onclick="mapa.addLayer('delitos')">delitos</button>
+  </div>
+  <div>
+    <button onclick="mapa.map.removePublicLayer('estacionamiento_en_via_publica')">Remover capa estacionamientos</button>
+    <button onclick="mapa.map.removePublicLayer('centros_de_salud.centros_de_salud_y_accion_comunitaria')">Remover capa bancos</button>
+    <button onclick="mapa.map.removePublicLayer('wifi_gratis')">Remover capa wifi</button>
+    <button onclick="mapa.map.removePublicLayer('red_de_ciclovias')">Remover capa bici</button>
+  </div>
+</body>
+<script type="text/javascript" src="bundle.js"></script>
+</html>
