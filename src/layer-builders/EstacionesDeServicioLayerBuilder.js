@@ -19,26 +19,26 @@ function getLayer(geoJson, coordinateConversion, style, icon) {
         pointToLayer: function (feature, latlng) {
             var content = '', i = 100, 
             icon = {
-                iconUrl: 'http://mapa.buenosaires.gob.ar/symbols/b/estacion_de_servicio.png',
+                iconUrl: 'https://mapa.buenosaires.gob.ar/symbols/b/estacion_de_servicio.png',
                 iconSize: [24, 24],
                 iconAnchor: [12, 12],
-                shadowUrl: 'http://mapa.buenosaires.gob.ar/imgs/fondos/2.png',
+                shadowUrl: 'https://mapa.buenosaires.gob.ar/imgs/fondos/2.png',
                 shadowSize: [24, 24],
                 shadowAnchor: [12, 12]								
             };
             switch(feature.properties.Nombre) {
                 case 'YPF':
-                    icon.shadowUrl = 'http://mapa.buenosaires.gob.ar/imgs/fondos/1.png';
+                    icon.shadowUrl = 'https://mapa.buenosaires.gob.ar/imgs/fondos/1.png';
                     break;
                 case 'SHELL':
-                    icon.iconUrl = "http://mapa.buenosaires.gob.ar/symbols/n/estacion_de_servicio.png";
-                    icon.shadowUrl = 'http://mapa.buenosaires.gob.ar/imgs/fondos/9.png';
+                    icon.iconUrl = "https://mapa.buenosaires.gob.ar/symbols/n/estacion_de_servicio.png";
+                    icon.shadowUrl = 'https://mapa.buenosaires.gob.ar/imgs/fondos/9.png';
                     break;
                 case 'ESSO':
-                    icon.shadowUrl = 'http://mapa.buenosaires.gob.ar/imgs/fondos/7.png';
+                    icon.shadowUrl = 'https://mapa.buenosaires.gob.ar/imgs/fondos/7.png';
                     break;
                 case 'PETROBRAS':
-                    icon.shadowUrl = 'http://mapa.buenosaires.gob.ar/imgs/fondos/3.png';
+                    icon.shadowUrl = 'https://mapa.buenosaires.gob.ar/imgs/fondos/3.png';
                     break;
             }
             return L.marker(latlng, {icon: L.icon(icon), zIndexOffset: i});

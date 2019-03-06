@@ -11,9 +11,9 @@ import MapaInteractivo from '@usig-gcba/mapa-interactivo'
   function addLayerEstacionamientos() {
     map.addPublicLayer("estacionamiento_en_via_publica", {
       callAPIOnClick: true,
-      onClickAPI: "http://epok.buenosaires.gob.ar/atlasvial/buscarInformacionEstacionamiento/?formato=geojson&fullInfo=True&x=$lng&y=$lat&categorias=$categories",
+      onClickAPI: "https://epok.buenosaires.gob.ar/atlasvial/buscarInformacionEstacionamiento/?formato=geojson&fullInfo=True&x=$lng&y=$lat&categorias=$categories",
       baseLayer: {
-        uri: "http://servicios.usig.buenosaires.gob.ar/mapcache/tms/1.0.0/estacionamiento_en_via_publica_caba_3857@GoogleMapsCompatible/{z}/{x}/{y}.png"
+        uri: "https://servicios.usig.buenosaires.gob.ar/mapcache/tms/1.0.0/estacionamiento_en_via_publica_caba_3857@GoogleMapsCompatible/{z}/{x}/{y}.png"
       }
     });
   }
@@ -22,7 +22,7 @@ import MapaInteractivo from '@usig-gcba/mapa-interactivo'
     map.addPublicLayer(id, {clustering: true});
   }
   function onContextMenu(ev) {
-    const id = map.addMarker(ev.latlng, true, false, false, false, false, {iconUrl: 'http://static.usig.buenosaires.gob.ar/symbols/bases_extrahospitalarias.png'});
+    const id = map.addMarker(ev.latlng, true, false, false, false, false, {iconUrl: 'https://static.usig.buenosaires.gob.ar/symbols/bases_extrahospitalarias.png'});
   }
 
   function getImage() {

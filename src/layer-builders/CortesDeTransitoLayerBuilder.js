@@ -26,7 +26,7 @@ function getLayer(geoJson, coordinateConversion, style, icon) {
                     iconUrl: config.symbol_server + '/b/corte_de_transito.png',
                     iconSize: [24, 24],
                     iconAnchor: [12, 12],
-                    shadowUrl: 'http://mapa.buenosaires.gob.ar/imgs/fondos/1.png',
+                    shadowUrl: 'https://mapa.buenosaires.gob.ar/imgs/fondos/1.png',
                     shadowSize: [24, 24],
                     shadowAnchor: [12, 12]
                 };

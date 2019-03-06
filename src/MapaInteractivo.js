@@ -42,11 +42,11 @@ const defaults = {
         scaleControl: true
     },
     baseLayer: {
-        uri: 'http://tiles1.usig.buenosaires.gob.ar/mapcache/tms/1.0.0/amba_con_transporte_3857@GoogleMapsCompatible/{z}/{x}/{y}.png',
+        uri: 'https://tiles1.usig.buenosaires.gob.ar/mapcache/tms/1.0.0/amba_con_transporte_3857@GoogleMapsCompatible/{z}/{x}/{y}.png',
         params: {
             maxZoom: 18,
             minZoom: 9,
-            attribution: '<a href="http://usig.buenosaires.gob.ar" target="_blank">USIG</a> (<a href="http://www.buenosaires.gob.ar" target="_blank">GCBA</a>), © <a href="http://www.openstreetmap.org/copyright/en" target="_blank">OpenStreetMap</a> (ODbL)',
+            attribution: '<a href="https://usig.buenosaires.gob.ar" target="_blank">USIG</a> (<a href="http://www.buenosaires.gob.ar" target="_blank">GCBA</a>), © <a href="http://www.openstreetmap.org/copyright/en" target="_blank">OpenStreetMap</a> (ODbL)',
             tms: true,
             id: '',
             accessToken: ''
@@ -472,32 +472,34 @@ class MapaInteractivo {
     }
 
     removePublicLayer(layerName) {
-      const layer = layerName.indexOf(".") === -1 ? this.layersDefs[layerName] : {[layerName]: this.layersDefs[layerName.split('.')[0]][layerName.split('.')[1]]};
-      if (this.onClickFeature) this.map.removeLayer(this.onClickFeature);
-      if (layer) {
-        if (this._layers[layerName]) {
-          if (this._layers[layerName].baseLayer)
-            this.setBaseLayer();
-          else {
-            Object.entries(layer).forEach((layer) => {
-              try {
-                if (!this._loadingLayer) {
-                  if (this._layers[layerName].clustering) {
-                    this._markersClusterLayerGroup.removeLayer(this._layers[layerName][layer[0]]);
-                  } else {
-                    this._layerGroup.removeLayer(this._layers[layerName][layer[0]]);
+      if (this.layersDefs) {
+        const layer = layerName.indexOf(".") === -1 ? this.layersDefs[layerName] : {[layerName]: this.layersDefs[layerName.split('.')[0]][layerName.split('.')[1]]};
+        if (this.onClickFeature) this.map.removeLayer(this.onClickFeature);
+        if (layer) {
+          if (this._layers[layerName]) {
+            if (this._layers[layerName].baseLayer)
+              this.setBaseLayer();
+            else {
+              Object.entries(layer).forEach((layer) => {
+                try {
+                  if (!this._loadingLayer) {
+                    if (this._layers[layerName].clustering) {
+                      this._markersClusterLayerGroup.removeLayer(this._layers[layerName][layer[0]]);
+                    } else {
+                      this._layerGroup.removeLayer(this._layers[layerName][layer[0]]);
+                    }
                   }
+                  clearTimeout(this._layers[layerName].refreshTimeout);
+                } catch(e) {
+                  console.error(e);
                 }
-                clearTimeout(this._layers[layerName].refreshTimeout);
-              } catch(e) {
-                console.error(e);
-              }
-            });
+              });
+            }
+            delete this._layers[layerName];
           }
-          delete this._layers[layerName];
         }
+        console.log (this._layers)
       }
-      console.log (this._layers)
     }
 
     setBaseLayer(baseLayer) {
