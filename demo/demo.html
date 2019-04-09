@@ -15,7 +15,7 @@
   <div>
     <button onclick="addLayerEstacionamientos()">Capa estacionamientos</button>
     <button onclick="addLayer('centros_de_salud.centros_de_salud_y_accion_comunitaria')">Capa bancos</button>
-    <button onclick="addLayer('wifi_gratis')">Capa wifi</button>
+    <button onclick="addLayer('estaciones_de_servicio')">Capa wifi</button>
     <button onclick="addLayer('red_de_ciclovias')">Capa bici</button>
   </div>
   <div>
@@ -34,7 +34,17 @@
     onLayerLoaded: function (layerName, layerId) {console.log (layerName, layerId)},
     onContextMenu: onContextMenu
   });
-
+  map.setHeatMapData([
+      [-34.59605809895703,-58.35457413376579, 0.9],
+      [-34.59605809895703,-58.35457413376579, 0.9],
+      [-34.59605809895703,-58.35457413376579, 0.9],
+      [-34.59605809895703,-58.35457413376579, 0.9],
+      [-34.59605809895703,-58.35457413376579, 0.9],
+      [-34.59605809895703,-58.35457413376579, 0.9],
+      [-34.59605809895703,-58.35457413376579, 0.9],
+      [-34.59605809895703,-58.35457413376579, 0.9],
+    ], {radius: 25}
+  );
   function addLayerEstacionamientos() {
     map.addPublicLayer("estacionamiento_en_via_publica", {
       callAPIOnClick: true,

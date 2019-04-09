@@ -22,9 +22,10 @@ import iconoOrigen from './imgs/marker-source.png'
 import iconoDestino from './imgs/marker-target.png'
 import _ from 'lodash'
 import leafletImage from './utils/leaflet-image';
+import "leaflet.heat";
 
 // Purge window.L early
-L.noConflict();
+// L.noConflict();
 // store the map configuration properties in an object,
 // we could also move this to a separate file & import it if desired.
 const defaults = {
@@ -42,7 +43,7 @@ const defaults = {
         scaleControl: true
     },
     baseLayer: {
-        uri: 'https://tiles1.usig.buenosaires.gob.ar/mapcache/tms/1.0.0/amba_con_transporte_3857@GoogleMapsCompatible/{z}/{x}/{y}.png',
+        uri: 'https://servicios.usig.buenosaires.gob.ar/mapcache/tms/1.0.0/amba_con_transporte_3857@GoogleMapsCompatible/{z}/{x}/{y}.png',
         params: {
             maxZoom: 18,
             minZoom: 9,
@@ -728,6 +729,13 @@ class MapaInteractivo {
         } else {
             this.map.flyTo(marker.getLatLng());
         }
+    }
+
+    setHeatMapData(data, options) {
+      this.heat = L.heatLayer(data, options).addTo(this.map);
+    }
+    removeHeatMapData() {
+      this.map.removeLayer(this.heat);
     }
 
     showMessage(text) {
