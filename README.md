@@ -104,16 +104,16 @@ Objeto conteniendo los textos definidos para cada idioma. Por default se encuent
   * **layerId**: `String` Nombre de la capa, se usa de identificador.
   * **options**: `Object` conteniendo atributos opcionales de la capa.
 
-      * **url**: `String` (requerido) Dirección del origen de los datos con los parámetros de ZXY en forma de plantilla.
-      * **style**: `Object` Estilo para mostrar los datos en formato [L.Path](https://leafletjs.com/reference-1.5.0.html#path). [Documentación](http://leaflet.github.io/Leaflet.VectorGrid/vectorgrid-api-docs.html#styling-vectorgrids)
-      * **displayPopup**: `Object` En caso de querer mostrar la información de la capa en un popup.
+    * **url**: `String` (requerido) Dirección del origen de los datos con los parámetros de ZXY en forma de plantilla.
+    * **style**: `Object` Estilo para mostrar los datos en formato [L.Path](https://leafletjs.com/reference-1.5.0.html#path). [Documentación](http://leaflet.github.io/Leaflet.VectorGrid/vectorgrid-api-docs.html#styling-vectorgrids)
+    * **displayPopup**: `Object` En caso de querer mostrar la información de la capa en un popup.
 
 
 
-  | Opcion        | Tipo           | Default    | Descripcion |
-  | ------------- |:-------------: | :---------:| :---------:|
-  | **content** | *String*      |   ` ` |Contenido, se acepta HTML y los atributos se usan con placeholders entre llaves. Ejemplo {atributo}. [Referencia](https://leafletjs.com/reference-1.5.0.html#util-template) |
-  | **onEvent** | *String*      |   `click` |click o mouseover|
+| Opcion        | Tipo           | Default    | Descripcion |
+| ------------- |:-------------: | :---------:| :---------:|
+| **content** | *String*      |   ` ` |Contenido, se acepta HTML y los atributos se usan con placeholders entre llaves. Ejemplo {atributo}. [Referencia](https://leafletjs.com/reference-1.5.0.html#util-template) |
+| **onEvent** | *String*      |   `click` |click o mouseover|
 
 
 #### removeVectorTileLayer(layerId: String)
