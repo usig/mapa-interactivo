@@ -98,26 +98,28 @@ Objeto conteniendo los textos definidos para cada idioma. Por default se encuent
 *Remueve una capa en base a su nombre*
   * **layerName**: `String` nombre de la capa
 
-  #### addVectorTileLayer(layerId: String, options?: Object)
+#### addVectorTileLayer(layerId: String, options?: Object)
 
-  *Agrega una capa de [mosaicos vectoriales](http://leaflet.github.io/Leaflet.VectorGrid/vectorgrid-api-docs.html). Se usa para poder cargar datos vectoriales de gran volumen*
-    * **layerId**: `String` Nombre de la capa, se usa de identificador.
-    * **options**: `Object` conteniendo atributos opcionales de la capa.
-    * **Posibles opciones**
-      * `Object`
-        * **url**: `String` (requerido) Dirección del origen de los datos con los parámetros de ZXY en forma de plantilla.
-        * **style**: `Object` Estilo para mostrar los datos en formato [L.Path](https://leafletjs.com/reference-1.5.0.html#path). [Documentación](http://leaflet.github.io/Leaflet.VectorGrid/vectorgrid-api-docs.html#styling-vectorgrids)
-        * **displayPopup**: `Object` En caso de querer mostrar la información de la capa en un popup.
-        | Opcion        | Tipo           | Default  | Descripcion |
-        | ------------- |:-------------: | :---------:| :----------: |
-        | **content** | *String*      |   ` ` |Contenido del popup, se acepta html y se accede a los datos usando placeholders con los nombres de los datos entre llaves. Ejemplo {someAttribute}|
-        | **onEvent** | *String*      |   `click` |click o mouseover|
+*Agrega una capa de [mosaicos vectoriales](http://leaflet.github.io/Leaflet.VectorGrid/vectorgrid-api-docs.html). Se usa para poder cargar datos vectoriales de gran volumen*
+  * **layerId**: `String` Nombre de la capa, se usa de identificador.
+  * **options**: `Object` conteniendo atributos opcionales de la capa.
+
+      * **url**: `String` (requerido) Dirección del origen de los datos con los parámetros de ZXY en forma de plantilla.
+      * **style**: `Object` Estilo para mostrar los datos en formato [L.Path](https://leafletjs.com/reference-1.5.0.html#path). [Documentación](http://leaflet.github.io/Leaflet.VectorGrid/vectorgrid-api-docs.html#styling-vectorgrids)
+      * **displayPopup**: `Object` En caso de querer mostrar la información de la capa en un popup.
 
 
-  #### removeVectorTileLayer(layerId: String)
 
-  *Remueve una capa de tiles vectoriales en base a su nombre*
-    * **layerId**: `String` nombre de la capa
+  | Opcion        | Tipo           | Default    | Descripcion |
+  | ------------- |:-------------: | :---------:| :---------:|
+  | **content** | *String*      |   ` ` |Contenido, se acepta HTML y los atributos se usan con placeholders entre llaves. Ejemplo {atributo}. [Referencia](https://leafletjs.com/reference-1.5.0.html#util-template) |
+  | **onEvent** | *String*      |   `click` |click o mouseover|
+
+
+#### removeVectorTileLayer(layerId: String)
+
+*Remueve una capa de tiles vectoriales en base a su nombre*
+  * **layerId**: `String` nombre de la capa
 
 #### setBaseLayer()
 
