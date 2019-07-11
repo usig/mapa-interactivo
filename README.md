@@ -56,7 +56,7 @@ Es importante que el div contenedor contenga las dimensiones deseadas previament
 
 ##### *opciones.texts?: Object*
 
-Objeto conteniendo los textos definidos para cada idioma. Por default se encuentran los siguientes textos: 
+Objeto conteniendo los textos definidos para cada idioma. Por default se encuentran los siguientes textos:
 ```javascript
    texts: {
      es: {
@@ -92,12 +92,33 @@ Objeto conteniendo los textos definidos para cada idioma. Por default se encuent
           * **uri**: `String` uri utilizado para descargar la capa
           * **options**: `Object` opciones de [L.tileLayer](http://leafletjs.com/reference-1.3.0.html#tilelayer-option)
         * [`L.tileLayer`](http://leafletjs.com/reference-1.3.0.html#tilelayer)
-    
+
 #### removePublicLayer(layerName: String)
 
 *Remueve una capa en base a su nombre*
   * **layerName**: `String` nombre de la capa
-  
+
+  #### addVectorTileLayer(layerId: String, options?: Object)
+
+  *Agrega una capa de [mosaicos vectoriales](http://leaflet.github.io/Leaflet.VectorGrid/vectorgrid-api-docs.html). Se usa para poder cargar datos vectoriales de gran volumen*
+    * **layerId**: `String` Nombre de la capa, se usa de identificador.
+    * **options**: `Object` conteniendo atributos opcionales de la capa.
+    * **Posibles opciones**
+      * `Object`
+        * **url**: `String` (requerido) Dirección del origen de los datos con los parámetros de ZXY en forma de plantilla.
+        * **style**: `Object` Estilo para mostrar los datos en formato [L.Path](https://leafletjs.com/reference-1.5.0.html#path). [Documentación](http://leaflet.github.io/Leaflet.VectorGrid/vectorgrid-api-docs.html#styling-vectorgrids)
+        * **displayPopup**: `Object` En caso de querer mostrar la información de la capa en un popup.
+        | Opcion        | Tipo           | Default  | Descripcion |
+        | ------------- |:-------------: | :---------:| :----------: |
+        | **content** | *String*      |   ` ` |Contenido del popup, se acepta html y se accede a los datos usando placeholders con los nombres de los datos entre llaves. Ejemplo {someAttribute}|
+        | **onEvent** | *String*      |   `click` |click o mouseover|
+
+
+  #### removeVectorTileLayer(layerId: String)
+
+  *Remueve una capa de tiles vectoriales en base a su nombre*
+    * **layerId**: `String` nombre de la capa
+
 #### setBaseLayer()
 
 *Agrega la capa base default del mapa*
@@ -108,7 +129,7 @@ Objeto conteniendo los textos definidos para cada idioma. Por default se encuent
 ##### Parámetros
 
   * **baseLayer**: `L.tileLayer` la nueva base a agregar
-  
+
 #### setBaseLayer(baselayer: Object)
 
 *Cambia la capa base del mapa*
@@ -117,7 +138,7 @@ Objeto conteniendo los textos definidos para cada idioma. Por default se encuent
   * **baseLayer**: `Object` la nueva base a agregar conteniendo:
     * **uri**: `String` uri utilizado para descargar la capa
     * **options**: `Object` opciones de [L.tileLayer](http://leafletjs.com/reference-1.3.0.html#tilelayer-option)
-  
+
 #### addMarker(latlng: Object, visible: boolean, draggable: boolean, goTo: boolean, activate: boolean, clickable: boolean, options: Object) => markerId: Number
 
 *Agrega un marcador en la posicion especificada, retornando su id*
@@ -135,7 +156,7 @@ Objeto conteniendo los textos definidos para cada idioma. Por default se encuent
 ##### Return
 
   * `Number` id del marcador generado
-  
+
 #### selectMarker(markerId: Number)
 
 *Selecciona el marcador indicado*
@@ -147,14 +168,14 @@ Objeto conteniendo los textos definidos para cada idioma. Por default se encuent
 *Pregunta si el marcador esta activo*
 ##### Parámetros
   * **markerId**: `Number` id del marcador a analizar
-  
+
 #### removeMarker(markerId: String)
 *Remueve el marcador indicado*
 ##### Parámetros
   * **markerId**: `Number` id del marcador a remover
 ##### Return
   * **seleccionado**: `boolean` indicando si el marcador esta seleccionado
-  
+
 #### addLocationMarker(position: Object, recenter: boolean, zoomIn: boolean) => [L.Marker](http://leafletjs.com/reference-1.3.0.html#marker)
 *Agrega al mapa un marcador de ubicación actual en la posicion especificada*
 ##### Parámetros
@@ -166,7 +187,7 @@ Objeto conteniendo los textos definidos para cada idioma. Por default se encuent
   * **zoomIn**: `boolean` indicando si se debe ajustar el nivel de zoom
 ##### Return
   * **marker**: `L.marker` marcador agregado
-  
+
 #### mostrarRecorrido(recorrido: Object)
 *Agrega un recorrido al mapa*
 ##### Parámetros
@@ -176,7 +197,7 @@ Objeto conteniendo los textos definidos para cada idioma. Por default se encuent
 *Remueve el recorrido del mapa*
 ##### Parámetros
   * **recorrido**: `Object` recorrido a ser removido.
-  
+
 #### getStaticImage()
 *Retorna un elemento canvas con la imágen del mapa*
 ##### Return

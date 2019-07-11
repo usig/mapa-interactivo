@@ -17,12 +17,14 @@
     <button onclick="addLayer('centros_de_salud.centros_de_salud_y_accion_comunitaria')">Capa bancos</button>
     <button onclick="addLayer('estaciones_de_servicio')">Capa wifi</button>
     <button onclick="addLayer('red_de_ciclovias')">Capa bici</button>
+    <button onclick="addVectorTileLayer()">Capa Parcelas (vectorTile)</button>
   </div>
   <div>
     <button onclick="map.removePublicLayer('estacionamiento_en_via_publica')">Remover capa estacionamientos</button>
     <button onclick="map.removePublicLayer('centros_de_salud.centros_de_salud_y_accion_comunitaria')">Remover capa bancos</button>
     <button onclick="map.removePublicLayer('wifi_gratis')">Remover capa wifi</button>
     <button onclick="map.removePublicLayer('red_de_ciclovias')">Remover capa bici</button>
+    <button onclick="map.removeVectorTileLayer('parcelas')">Remover capa Parcelas</button>
   </div>
 </body>
 <script src="../lib/MapaInteractivo.js"></script>
@@ -45,6 +47,7 @@
       [-34.59605809895703,-58.35457413376579, 0.9],
     ], {radius: 25}
   );
+
   function addLayerEstacionamientos() {
     map.addPublicLayer("estacionamiento_en_via_publica", {
       callAPIOnClick: true,
@@ -72,6 +75,36 @@
       document.getElementById('images').innerHTML = '';
       document.getElementById('images').appendChild(img);
     })
+  }
+
+  function addVectorTileLayer(){
+    map.addVectorTileLayer('parcelas',{
+      url: 'http://example.com/tileserver/parcelas/{z}/{x}/{y}.pbf',
+      displayPopup:{ content:'<b>Comuna: </b>{parcela} <br> <b>Barrio: </b>{barrios}', onEvent:'click'},
+      style:{
+        parcelas:function(properties, zoom, geometryDimension){
+          return {
+                 weight: (zoom > 12)? 2 : 0.5,
+                 fillColor: getColor(properties.comuna),
+                 fillOpacity: 0.8,
+                 stroke: true,
+                 color:'#FF00FF',
+                 dashArray: '2',
+                 fill: true
+            }
+        }
+      }
+    });
+  }
+
+
+  function getColor(d) {
+    return d > 12  ? '#E31A1C' :
+           d > 9  ? '#FC4E2A' :
+           d > 6   ? '#FD8D3C' :
+           d > 3   ? '#FEB24C' :
+           d > 1   ? '#FED976' :
+                      '#FFEDA0';
   }
 
   //  setTimeout(() => {

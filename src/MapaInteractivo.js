@@ -23,6 +23,7 @@ import iconoDestino from './imgs/marker-target.png'
 import _ from 'lodash'
 import leafletImage from './utils/leaflet-image';
 import "leaflet.heat";
+import './leaflet-vectorgrid/Leaflet.VectorGrid.js';
 
 // Purge window.L early
 // L.noConflict();
@@ -738,6 +739,61 @@ class MapaInteractivo {
       this.map.removeLayer(this.heat);
     }
 
+    addVectorTileLayer(layerName, options){
+      this._loadingLayer = true;
+      let that = this;
+      let url = false;
+      if (!this._layers[layerName]) {
+        this.inactivateMarker();
+        if (options && options.url){
+          url = options.url;
+
+          let layer = L.vectorGrid.protobuf(url, {
+            rendererFactory: L.canvas.tile,
+            vectorTileLayerStyles: (options.style)? options.style : {},
+            interactive: true,
+            token: (options.token)? options.token : '',
+            key: (options.key)? options.key : '',
+            attribution: ''
+          });
+          if(layer){
+              this._layers[layerName] = layer;
+              this.msgControl.show(this.config.texts[this.config.language].loadingLayers);
+              layer.addTo(this.map);
+              if(options.displayPopup){
+                const eventListener = (options.displayPopup.onEvent)? options.displayPopup.onEvent : 'click';
+                layer.on(eventListener,function(e){
+                  that.showVectorTilePopup(e,options.displayPopup);
+                });
+              }
+              setTimeout(()=>{
+                this.msgControl.hide();
+                this._loadingLayer = false;
+              },2000)
+          }
+
+        }else{
+          console.log("Error: es necesario pasar la url del tile service entre las opciones");
+        }
+
+      }
+    }
+
+    showVectorTilePopup(e,options){
+        const template = L.Util.template(options.content,e.layer.properties)
+        L.popup()
+         .setLatLng(e.latlng)
+         .setContent(template)
+         .openOn(this.map);
+    }
+
+    removeVectorTileLayer(layerName){
+        if(this._layers[layerName]){
+          this.map.removeLayer(this._layers[layerName]);
+          delete this._layers[layerName];
+        }
+    }
+
     showMessage(text) {
         this.msgControl.show(text);
     }
@@ -753,6 +809,8 @@ class MapaInteractivo {
     getMapEngine() {
       return L;
     }
+
+
 }
 
 export default MapaInteractivo;
