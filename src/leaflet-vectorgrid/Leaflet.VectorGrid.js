@@ -499,7 +499,8 @@ L.VectorGrid = L.GridLayer.extend({
 		var layer;
 		switch (feat.type) {
 		case 1:
-			layer = new PointSymbolizer(feat, pxPerExtent);
+            layer = new PointSymbolizer(feat, pxPerExtent);
+            layer.getLatLng = null;
 			break;
 		case 2:
 			layer = new LineSymbolizer(feat, pxPerExtent);
